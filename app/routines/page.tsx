@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllSkinRoutines } from "@/lib/sanity-skin";
 
 export const metadata: Metadata = {
   title: "Skin Routines — Step-by-Step Protocols by Skin Type",
@@ -9,14 +8,51 @@ export const metadata: Metadata = {
   alternates: { canonical: "/routines" },
 };
 
+const routines = [
+  {
+    title: "AM Routine for Oily & Acne-Prone Skin",
+    skinTypes: ["oily", "acne-prone"],
+    duration: "7 min",
+    description: "A lightweight morning protocol that controls sebum without stripping the barrier — built around evidence-backed actives for acne management.",
+  },
+  {
+    title: "PM Routine for Dry & Dehydrated Skin",
+    skinTypes: ["dry"],
+    duration: "8 min",
+    description: "An evening routine focused on barrier repair and overnight moisture retention, with humectant and emollient sequencing from cosmetic science.",
+  },
+  {
+    title: "Sensitive Skin Minimal Daily Protocol",
+    skinTypes: ["sensitive"],
+    duration: "5 min",
+    description: "A pared-back protocol designed to avoid common sensitisers. Every product category justified by barrier-first principles.",
+  },
+  {
+    title: "Anti-Aging AM Routine (30s+)",
+    skinTypes: ["mature", "normal"],
+    duration: "10 min",
+    description: "Photoprotection-led morning protocol with antioxidant layering. Addresses fine lines, firmness, and photoageing based on RCT evidence.",
+  },
+  {
+    title: "Hyperpigmentation Evening Protocol",
+    skinTypes: ["combination", "normal"],
+    duration: "8 min",
+    description: "A targeted evening routine combining evidence-backed brightening actives — retinoid, acid, and inhibitor — sequenced for safety and efficacy.",
+  },
+  {
+    title: "Combination Skin Balancing Routine",
+    skinTypes: ["combination"],
+    duration: "6 min",
+    description: "A multi-zone approach for combination skin that addresses both oiliness and dry patches without aggravating either.",
+  },
+];
+
 const skinTypeColor: Record<string, string> = {
   oily: "#4A6C8C", dry: "#C4622D", combination: "#92620A",
   sensitive: "#4A7C59", normal: "#5C5650", "acne-prone": "#8B1A1A", mature: "#7B5EA7",
 };
 
-export default async function SkinRoutinesPage() {
-  const routines = await getAllSkinRoutines();
-
+export default function SkinRoutinesPage() {
   return (
     <div style={{ backgroundColor: "#F2EBD9" }}>
 
@@ -50,39 +86,27 @@ export default async function SkinRoutinesPage() {
 
       {/* Grid */}
       <div style={{ maxWidth: 1280, margin: "0 auto" }} className="container-pad">
-        {routines.length === 0 ? (
-          <div style={{ padding: "64px 0", textAlign: "center" }}>
-            <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 12, color: "#A89880" }}>No routines published yet.</p>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
-            {routines.map((routine: any) => (
-              <Link key={routine.slug} href={`/routines/${routine.slug}`} className="hub-card" style={{ display: "block", borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4", textDecoration: "none" }}>
-                <div style={{ height: 3, backgroundColor: "#C4622D" }} />
-                <div style={{ padding: "20px 22px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 12 }}>
-                    <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 16, fontWeight: 700, color: "#1A1714", lineHeight: 1.3 }}>{routine.title}</h2>
-                    {routine.duration && <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, color: "#A89880", whiteSpace: "nowrap", flexShrink: 0 }}>{routine.duration}</span>}
-                  </div>
-                  {routine.description && (
-                    <p style={{ fontSize: 13, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>
-                      {routine.description.slice(0, 110)}{routine.description.length > 110 ? "…" : ""}
-                    </p>
-                  )}
-                  {routine.skinTypes?.length > 0 && (
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {routine.skinTypes.map((type: string) => (
-                        <span key={type} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 8px", borderRadius: 4, textTransform: "uppercase", color: skinTypeColor[type] ?? "#8A8480", backgroundColor: `${skinTypeColor[type] ?? "#8A8480"}14`, border: `1px solid ${skinTypeColor[type] ?? "#8A8480"}33` }}>
-                          {type}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
+          {routines.map((routine) => (
+            <div key={routine.title} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4" }}>
+              <div style={{ height: 3, backgroundColor: "#C4622D" }} />
+              <div style={{ padding: "20px 22px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 12 }}>
+                  <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 16, fontWeight: 700, color: "#1A1714", lineHeight: 1.3 }}>{routine.title}</h2>
+                  <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, color: "#A89880", whiteSpace: "nowrap", flexShrink: 0 }}>{routine.duration}</span>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
+                <p style={{ fontSize: 13, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>{routine.description}</p>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {routine.skinTypes.map((type) => (
+                    <span key={type} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 8px", borderRadius: 4, textTransform: "uppercase", color: skinTypeColor[type] ?? "#8A8480", backgroundColor: `${skinTypeColor[type] ?? "#8A8480"}14`, border: `1px solid ${skinTypeColor[type] ?? "#8A8480"}33` }}>
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

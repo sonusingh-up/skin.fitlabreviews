@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, BookOpen, FlaskConical, Target } from "lucide-react";
-import {
-  getAllSkinGuides,
-  getAllSkinConditions,
-  getAllSkinRoutines,
-  getAllSkinIngredients,
-} from "@/lib/sanity-skin";
 
 export const metadata: Metadata = {
   title: { absolute: "Skin Health — Evidence-Led Skincare · Fitlabreviews" },
@@ -15,39 +9,39 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const staticGuides = [
-  { title: "The Retinol Starter Guide: How to Begin Without Irritation", category: "Anti-Aging", difficulty: "beginner", timeEstimate: "8 min read", slug: "retinol-starter-guide" },
-  { title: "SPF 101: Why Mineral vs Chemical Sunscreen Matters", category: "Sun Protection", difficulty: "beginner", timeEstimate: "6 min read", slug: "spf-mineral-vs-chemical" },
-  { title: "Building a Hyperpigmentation Routine That Works", category: "Hyperpigmentation", difficulty: "intermediate", timeEstimate: "10 min read", slug: "hyperpigmentation-routine" },
-  { title: "The Acid Guide: AHAs, BHAs, and PHAs Explained", category: "Exfoliation", difficulty: "intermediate", timeEstimate: "9 min read", slug: "acids-aha-bha-pha-guide" },
-  { title: "Niacinamide: The Evidence Behind the Hype", category: "Ingredients", difficulty: "beginner", timeEstimate: "7 min read", slug: "niacinamide-evidence" },
-  { title: "Sensitive Skin: Patch Testing and Trigger Identification", category: "Sensitive Skin", difficulty: "beginner", timeEstimate: "5 min read", slug: "sensitive-skin-patch-test" },
+const guides = [
+  { title: "The Retinol Starter Guide: How to Begin Without Irritation", category: "Anti-Aging", difficulty: "beginner", timeEstimate: "8 min read" },
+  { title: "SPF 101: Why Mineral vs Chemical Sunscreen Matters", category: "Sun Protection", difficulty: "beginner", timeEstimate: "6 min read" },
+  { title: "Building a Hyperpigmentation Routine That Works", category: "Hyperpigmentation", difficulty: "intermediate", timeEstimate: "10 min read" },
+  { title: "The Acid Guide: AHAs, BHAs, and PHAs Explained", category: "Exfoliation", difficulty: "intermediate", timeEstimate: "9 min read" },
+  { title: "Niacinamide: The Evidence Behind the Hype", category: "Ingredients", difficulty: "beginner", timeEstimate: "7 min read" },
+  { title: "Sensitive Skin: Patch Testing and Trigger Identification", category: "Sensitive Skin", difficulty: "beginner", timeEstimate: "5 min read" },
 ];
 
-const staticConditions = [
-  { title: "Acne", desc: "The most common skin condition. Pathology, triggers, and evidence-based treatment hierarchy.", symptoms: ["Breakouts", "Blackheads", "Oiliness"], slug: "acne" },
-  { title: "Eczema (Atopic Dermatitis)", desc: "Barrier dysfunction and immune dysregulation — emollient strategies and trigger identification.", symptoms: ["Itching", "Dryness", "Redness"], slug: "eczema" },
-  { title: "Hyperpigmentation", desc: "PIH, melasma, and solar lentigines — causes differ, treatment protocols differ.", symptoms: ["Dark spots", "Uneven tone", "Melasma"], slug: "hyperpigmentation" },
-  { title: "Rosacea", desc: "Chronic inflammatory condition often misidentified. Trigger mapping and barrier-first protocol.", symptoms: ["Flushing", "Redness", "Sensitivity"], slug: "rosacea" },
-  { title: "Psoriasis", desc: "Immune-mediated with skin and systemic implications. Topical management strategies.", symptoms: ["Plaques", "Scaling", "Inflammation"], slug: "psoriasis" },
-  { title: "Dehydrated Skin", desc: "Distinct from dry skin type. Barrier repair and humectant sequencing for all skin types.", symptoms: ["Tightness", "Dullness", "Fine lines"], slug: "dehydrated-skin" },
+const conditions = [
+  { title: "Acne", desc: "The most common skin condition. Pathology, triggers, and evidence-based treatment hierarchy.", symptoms: ["Breakouts", "Blackheads", "Oiliness"] },
+  { title: "Eczema (Atopic Dermatitis)", desc: "Barrier dysfunction and immune dysregulation — emollient strategies and trigger identification.", symptoms: ["Itching", "Dryness", "Redness"] },
+  { title: "Hyperpigmentation", desc: "PIH, melasma, and solar lentigines — causes differ, treatment protocols differ.", symptoms: ["Dark spots", "Uneven tone", "Melasma"] },
+  { title: "Rosacea", desc: "Chronic inflammatory condition often misidentified. Trigger mapping and barrier-first protocol.", symptoms: ["Flushing", "Redness", "Sensitivity"] },
+  { title: "Psoriasis", desc: "Immune-mediated with skin and systemic implications. Topical management strategies.", symptoms: ["Plaques", "Scaling", "Inflammation"] },
+  { title: "Dehydrated Skin", desc: "Distinct from dry skin type. Barrier repair and humectant sequencing for all skin types.", symptoms: ["Tightness", "Dullness", "Fine lines"] },
 ];
 
-const staticIngredients = [
-  { title: "Retinol", category: "Retinoid", evidenceLevel: "strong", topBenefit: "Fine lines, texture & skin turnover", slug: "retinol" },
-  { title: "Niacinamide", category: "Vitamin B3", evidenceLevel: "strong", topBenefit: "Pores, hyperpigmentation & barrier", slug: "niacinamide" },
-  { title: "Vitamin C (L-Ascorbic Acid)", category: "Antioxidant", evidenceLevel: "strong", topBenefit: "Brightening & oxidative stress defence", slug: "vitamin-c" },
-  { title: "Hyaluronic Acid", category: "Humectant", evidenceLevel: "moderate", topBenefit: "Surface hydration & transepidermal water loss", slug: "hyaluronic-acid" },
-  { title: "AHAs (Glycolic & Lactic Acid)", category: "Exfoliant", evidenceLevel: "strong", topBenefit: "Resurfacing, radiance & pigment lightening", slug: "aha-exfoliants" },
-  { title: "Zinc Oxide", category: "UV Filter", evidenceLevel: "strong", topBenefit: "Broad-spectrum photoprotection", slug: "zinc-oxide" },
+const ingredients = [
+  { title: "Retinol", category: "Retinoid", evidenceLevel: "strong", topBenefit: "Fine lines, texture & skin turnover" },
+  { title: "Niacinamide", category: "Vitamin B3", evidenceLevel: "strong", topBenefit: "Pores, hyperpigmentation & barrier" },
+  { title: "Vitamin C (L-Ascorbic Acid)", category: "Antioxidant", evidenceLevel: "strong", topBenefit: "Brightening & oxidative stress defence" },
+  { title: "Hyaluronic Acid", category: "Humectant", evidenceLevel: "moderate", topBenefit: "Surface hydration & transepidermal water loss" },
+  { title: "AHAs (Glycolic & Lactic Acid)", category: "Exfoliant", evidenceLevel: "strong", topBenefit: "Resurfacing, radiance & pigment lightening" },
+  { title: "Zinc Oxide", category: "UV Filter", evidenceLevel: "strong", topBenefit: "Broad-spectrum photoprotection" },
 ];
 
-const staticRoutines = [
-  { title: "AM Routine for Oily & Acne-Prone Skin", skinTypes: ["oily", "acne-prone"], duration: "7 min", slug: "am-oily-acne-prone" },
-  { title: "PM Routine for Dry & Dehydrated Skin", skinTypes: ["dry"], duration: "8 min", slug: "pm-dry-skin" },
-  { title: "Sensitive Skin Minimal Daily Protocol", skinTypes: ["sensitive"], duration: "5 min", slug: "sensitive-skin-daily" },
-  { title: "Anti-Aging AM Routine (30s+)", skinTypes: ["mature", "normal"], duration: "10 min", slug: "anti-aging-am" },
-  { title: "Hyperpigmentation Evening Protocol", skinTypes: ["combination", "normal"], duration: "8 min", slug: "hyperpigmentation-evening" },
+const routines = [
+  { title: "AM Routine for Oily & Acne-Prone Skin", skinTypes: ["oily", "acne-prone"], duration: "7 min" },
+  { title: "PM Routine for Dry & Dehydrated Skin", skinTypes: ["dry"], duration: "8 min" },
+  { title: "Sensitive Skin Minimal Daily Protocol", skinTypes: ["sensitive"], duration: "5 min" },
+  { title: "Anti-Aging AM Routine (30s+)", skinTypes: ["mature", "normal"], duration: "10 min" },
+  { title: "Hyperpigmentation Evening Protocol", skinTypes: ["combination", "normal"], duration: "8 min" },
 ];
 
 const evidenceColor: Record<string, string> = {
@@ -68,29 +62,7 @@ const trustPoints = [
   { icon: <Target size={18} />, title: "Explicit Evidence Levels", body: "Every claim is tagged: Strong, Moderate, Limited, Emerging, or Insufficient. Readers always know how confident we are." },
 ];
 
-export default async function SkinHomePage() {
-  const [guides, conditions, routines, ingredients] = await Promise.all([
-    getAllSkinGuides(),
-    getAllSkinConditions(),
-    getAllSkinRoutines(),
-    getAllSkinIngredients(),
-  ]);
-
-  const hasGuides      = guides.length > 0;
-  const hasConditions  = conditions.length > 0;
-  const hasRoutines    = routines.length > 0;
-  const hasIngredients = ingredients.length > 0;
-
-  const displayGuides      = hasGuides      ? guides      : staticGuides;
-  const displayConditions  = hasConditions  ? conditions  : staticConditions;
-  const displayRoutines    = hasRoutines    ? routines    : staticRoutines;
-  const displayIngredients = hasIngredients ? ingredients : staticIngredients;
-
-  const guideHref      = (slug: string) => hasGuides      ? `/guides/${slug}`      : "/guides";
-  const conditionHref  = (slug: string) => hasConditions  ? `/conditions/${slug}`  : "/conditions";
-  const routineHref    = (slug: string) => hasRoutines    ? `/routines/${slug}`    : "/routines";
-  const ingredientHref = (slug: string) => hasIngredients ? `/ingredients/${slug}` : "/ingredients";
-
+export default function SkinHomePage() {
   return (
     <div style={{ backgroundColor: "#F2EBD9" }}>
 
@@ -102,7 +74,6 @@ export default async function SkinHomePage() {
             <span style={{ width: 40, height: 1, backgroundColor: "#D4C9B8", display: "inline-block" }} />
             <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: "#C4622D" }}>Evidence-Led Skincare Research</span>
           </div>
-
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 56, alignItems: "end" }}>
             <div>
               <h1 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: "clamp(2.6rem, 6vw, 4.8rem)", fontWeight: 800, letterSpacing: "-0.03em", color: "#1A1714", lineHeight: 0.95, marginBottom: 28 }}>
@@ -122,8 +93,6 @@ export default async function SkinHomePage() {
                 </Link>
               </div>
             </div>
-
-            {/* Research dashboard panel */}
             <div style={{ borderRadius: 12, overflow: "hidden", maxWidth: 420, border: "1px solid rgba(212,201,184,0.4)" }}>
               <div style={{ padding: "14px 20px", background: "linear-gradient(145deg, #1E1B18 0%, #141210 100%)", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative" }}>
                 <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(242,235,217,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(242,235,217,0.04) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
@@ -199,25 +168,18 @@ export default async function SkinHomePage() {
           </Link>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))", gap: 12 }}>
-          {displayGuides.slice(0, 6).map((guide: any) => (
-            <Link key={guide.slug} href={guideHref(guide.slug)} className="hub-card" style={{ display: "block", borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", textDecoration: "none", backgroundColor: "#F8F2E4" }}>
-              <div style={{ height: 3, backgroundColor: guide.difficulty ? difficultyColor[guide.difficulty] ?? "#C4622D" : "#C4622D" }} />
+          {guides.map((guide) => (
+            <div key={guide.title} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4" }}>
+              <div style={{ height: 3, backgroundColor: difficultyColor[guide.difficulty] ?? "#C4622D" }} />
               <div style={{ padding: "16px 18px 20px", display: "flex", flexDirection: "column", gap: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                  {guide.category && (
-                    <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase", letterSpacing: "0.1em" }}>{guide.category}</span>
-                  )}
-                  {guide.difficulty && (
-                    <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", color: difficultyColor[guide.difficulty] ?? "#8A8480", backgroundColor: `${difficultyColor[guide.difficulty] ?? "#8A8480"}14`, border: `1px solid ${difficultyColor[guide.difficulty] ?? "#8A8480"}33` }}>{guide.difficulty}</span>
-                  )}
+                  <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase", letterSpacing: "0.1em" }}>{guide.category}</span>
+                  <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", color: difficultyColor[guide.difficulty] ?? "#8A8480", backgroundColor: `${difficultyColor[guide.difficulty] ?? "#8A8480"}14`, border: `1px solid ${difficultyColor[guide.difficulty] ?? "#8A8480"}33` }}>{guide.difficulty}</span>
                 </div>
                 <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, margin: 0 }}>{guide.title}</h3>
-                {guide.description && (
-                  <p style={{ fontSize: 12, color: "#8A8480", lineHeight: 1.5, margin: 0 }}>{(guide.description as string).slice(0, 100)}{(guide.description as string).length > 100 ? "…" : ""}</p>
-                )}
-                <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#C4622D" }}>{guide.timeEstimate ?? "Read guide"} →</span>
+                <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880" }}>{guide.timeEstimate}</span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -241,20 +203,16 @@ export default async function SkinHomePage() {
             </Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
-            {displayConditions.slice(0, 6).map((condition: any) => (
-              <Link key={condition.slug} href={conditionHref(condition.slug)} className="hub-card" style={{ display: "block", padding: "20px 22px", borderRadius: 12, border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4", textDecoration: "none" }}>
+            {conditions.map((condition) => (
+              <div key={condition.title} style={{ padding: "20px 22px", borderRadius: 12, border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4" }}>
                 <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, marginBottom: 8 }}>{condition.title}</h3>
-                <p style={{ fontSize: 12, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>
-                  {condition.desc ?? (condition.description ? (condition.description as string).slice(0, 90) + ((condition.description as string).length > 90 ? "…" : "") : "")}
-                </p>
-                {condition.symptoms?.length > 0 && (
-                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                    {(condition.symptoms as string[]).slice(0, 3).map((s) => (
-                      <span key={s} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase" }}>{s}</span>
-                    ))}
-                  </div>
-                )}
-              </Link>
+                <p style={{ fontSize: 12, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>{condition.desc}</p>
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                  {condition.symptoms.map((s) => (
+                    <span key={s} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase" }}>{s}</span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -279,19 +237,15 @@ export default async function SkinHomePage() {
             </Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
-            {displayIngredients.slice(0, 6).map((ing: any) => (
-              <Link key={ing.slug ?? ing.title} href={ingredientHref(ing.slug)} className="hub-card" style={{ display: "block", padding: "20px 22px", borderRadius: 12, border: "1px solid rgba(212,201,184,0.12)", backgroundColor: "rgba(242,235,217,0.04)", textDecoration: "none" }}>
+            {ingredients.map((ing) => (
+              <div key={ing.title} style={{ padding: "20px 22px", borderRadius: 12, border: "1px solid rgba(212,201,184,0.12)", backgroundColor: "rgba(242,235,217,0.04)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                   <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, fontWeight: 700, color: "#F2EBD9", lineHeight: 1.3 }}>{ing.title}</h3>
-                  {ing.evidenceLevel && (
-                    <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0, color: evidenceColor[ing.evidenceLevel] ?? "#8A8480", backgroundColor: `${evidenceColor[ing.evidenceLevel] ?? "#8A8480"}1A`, border: `1px solid ${evidenceColor[ing.evidenceLevel] ?? "#8A8480"}40` }}>{ing.evidenceLevel}</span>
-                  )}
+                  <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0, color: evidenceColor[ing.evidenceLevel] ?? "#8A8480", backgroundColor: `${evidenceColor[ing.evidenceLevel] ?? "#8A8480"}1A`, border: `1px solid ${evidenceColor[ing.evidenceLevel] ?? "#8A8480"}40` }}>{ing.evidenceLevel}</span>
                 </div>
-                {ing.category && (
-                  <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5C5650", marginBottom: 10 }}>{ing.category}</p>
-                )}
-                <p style={{ fontSize: 12, color: "#8A8480", lineHeight: 1.55 }}>{ing.topBenefit ?? (ing.benefits?.[0] ?? "")}</p>
-              </Link>
+                <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5C5650", marginBottom: 10 }}>{ing.category}</p>
+                <p style={{ fontSize: 12, color: "#8A8480", lineHeight: 1.55 }}>{ing.topBenefit}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -315,23 +269,18 @@ export default async function SkinHomePage() {
           </Link>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 0, border: "1px solid #D4C9B8", borderRadius: 12, overflow: "hidden" }}>
-          {displayRoutines.slice(0, 5).map((routine: any, i: number) => (
-            <Link key={routine.slug} href={routineHref(routine.slug)} className="hub-row-link" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, alignItems: "center", padding: "18px 22px", borderBottom: i < Math.min(displayRoutines.length, 5) - 1 ? "1px solid #EDE8DF" : "none", backgroundColor: i % 2 === 0 ? "#F8F2E4" : "#F2EBD9", textDecoration: "none" }}>
+          {routines.map((routine, i) => (
+            <div key={routine.title} style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, alignItems: "center", padding: "18px 22px", borderBottom: i < routines.length - 1 ? "1px solid #EDE8DF" : "none", backgroundColor: i % 2 === 0 ? "#F8F2E4" : "#F2EBD9" }}>
               <div>
                 <p style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, fontWeight: 700, color: "#1A1714", marginBottom: 6 }}>{routine.title}</p>
-                {routine.skinTypes?.length > 0 && (
-                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                    {(routine.skinTypes as string[]).slice(0, 3).map((type) => (
-                      <span key={type} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "1px 7px", borderRadius: 4, textTransform: "uppercase", color: skinTypeColor[type] ?? "#8A8480", backgroundColor: `${skinTypeColor[type] ?? "#8A8480"}14`, border: `1px solid ${skinTypeColor[type] ?? "#8A8480"}33` }}>{type}</span>
-                    ))}
-                  </div>
-                )}
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                  {routine.skinTypes.map((type) => (
+                    <span key={type} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "1px 7px", borderRadius: 4, textTransform: "uppercase", color: skinTypeColor[type] ?? "#8A8480", backgroundColor: `${skinTypeColor[type] ?? "#8A8480"}14`, border: `1px solid ${skinTypeColor[type] ?? "#8A8480"}33` }}>{type}</span>
+                  ))}
+                </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-                {routine.duration && <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880", whiteSpace: "nowrap" }}>{routine.duration}</span>}
-                <ArrowRight size={13} style={{ color: "#C4622D" }} />
-              </div>
-            </Link>
+              <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880", whiteSpace: "nowrap" }}>{routine.duration}</span>
+            </div>
           ))}
         </div>
       </section>

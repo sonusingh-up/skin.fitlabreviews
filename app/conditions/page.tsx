@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllSkinConditions } from "@/lib/sanity-skin";
 
 export const metadata: Metadata = {
   title: "Skin Conditions — Causes, Symptoms & Treatments",
@@ -9,9 +8,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/conditions" },
 };
 
-export default async function SkinConditionsPage() {
-  const conditions = await getAllSkinConditions();
+const conditions = [
+  { title: "Acne", description: "The most common skin condition. Pathology, triggers, and evidence-based treatment hierarchy — from topical retinoids to antibiotic stewardship.", symptoms: ["Breakouts", "Blackheads", "Whiteheads", "Oiliness"] },
+  { title: "Eczema (Atopic Dermatitis)", description: "Barrier dysfunction and immune dysregulation — emollient strategies, trigger identification, and when to step up treatment.", symptoms: ["Itching", "Dryness", "Redness", "Flaking"] },
+  { title: "Hyperpigmentation", description: "PIH, melasma, and solar lentigines — causes differ, treatment protocols differ. A clinical breakdown of each subtype.", symptoms: ["Dark spots", "Uneven tone", "Melasma", "Post-acne marks"] },
+  { title: "Rosacea", description: "Chronic inflammatory condition often misidentified as acne or sensitive skin. Trigger mapping and barrier-first protocol.", symptoms: ["Flushing", "Persistent redness", "Papules", "Sensitivity"] },
+  { title: "Psoriasis", description: "Immune-mediated condition with skin and systemic implications. Topical management strategies and when to seek specialist care.", symptoms: ["Plaques", "Scaling", "Inflammation", "Itching"] },
+  { title: "Dehydrated Skin", description: "Distinct from dry skin type — a transient condition affecting all skin types. Barrier repair and humectant sequencing.", symptoms: ["Tightness", "Dullness", "Fine lines", "Flakiness"] },
+];
 
+export default function SkinConditionsPage() {
   return (
     <div style={{ backgroundColor: "#F2EBD9" }}>
 
@@ -45,36 +51,21 @@ export default async function SkinConditionsPage() {
 
       {/* Grid */}
       <div style={{ maxWidth: 1280, margin: "0 auto" }} className="container-pad">
-        {conditions.length === 0 ? (
-          <div style={{ padding: "64px 0", textAlign: "center" }}>
-            <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 12, color: "#A89880" }}>No conditions published yet.</p>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-            {conditions.map((condition: any) => (
-              <Link key={condition.slug} href={`/conditions/${condition.slug}`} className="hub-card" style={{ display: "block", padding: "22px 24px", borderRadius: 12, border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4", textDecoration: "none" }}>
-                <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 17, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, marginBottom: 10 }}>{condition.title}</h2>
-                {condition.description && (
-                  <p style={{ fontSize: 13, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>
-                    {condition.description.slice(0, 120)}{condition.description.length > 120 ? "…" : ""}
-                  </p>
-                )}
-                {condition.symptoms?.length > 0 && (
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    {condition.symptoms.slice(0, 3).map((symptom: string) => (
-                      <span key={symptom} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 8px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase" }}>
-                        {symptom}
-                      </span>
-                    ))}
-                    {condition.symptoms.length > 3 && (
-                      <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, color: "#A89880" }}>+{condition.symptoms.length - 3} more</span>
-                    )}
-                  </div>
-                )}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+          {conditions.map((condition) => (
+            <div key={condition.title} style={{ padding: "22px 24px", borderRadius: 12, border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4" }}>
+              <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 17, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, marginBottom: 10 }}>{condition.title}</h2>
+              <p style={{ fontSize: 13, color: "#5C5650", lineHeight: 1.6, marginBottom: 14 }}>{condition.description}</p>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {condition.symptoms.slice(0, 3).map((symptom) => (
+                  <span key={symptom} style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 8px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase" }}>
+                    {symptom}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

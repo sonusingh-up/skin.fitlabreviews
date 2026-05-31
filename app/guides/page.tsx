@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllSkinGuides } from "@/lib/sanity-skin";
 
 export const metadata: Metadata = {
   title: "Skin Guides — Research-Led Skincare Articles",
@@ -9,15 +8,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "/guides" },
 };
 
+const guides = [
+  { title: "The Retinol Starter Guide: How to Begin Without Irritation", category: "Anti-Aging", difficulty: "beginner", timeEstimate: "8 min read", description: "A step-by-step introduction to retinol — correct concentrations, buffering methods, and how to avoid the retinol purge." },
+  { title: "SPF 101: Why Mineral vs Chemical Sunscreen Matters", category: "Sun Protection", difficulty: "beginner", timeEstimate: "6 min read", description: "The evidence behind UV filters, what broad-spectrum actually means, and how to choose between mineral and chemical options." },
+  { title: "Building a Hyperpigmentation Routine That Works", category: "Hyperpigmentation", difficulty: "intermediate", timeEstimate: "10 min read", description: "PIH, melasma, and solar lentigines have different causes — and different protocols. A clinical breakdown." },
+  { title: "The Acid Guide: AHAs, BHAs, and PHAs Explained", category: "Exfoliation", difficulty: "intermediate", timeEstimate: "9 min read", description: "What pH, concentration, and contact time mean for exfoliant efficacy — and how to sequence them correctly." },
+  { title: "Niacinamide: The Evidence Behind the Hype", category: "Ingredients", difficulty: "beginner", timeEstimate: "7 min read", description: "A deep look at the clinical studies on niacinamide — what it actually does, at what concentration, and what's overstated." },
+  { title: "Sensitive Skin: Patch Testing and Trigger Identification", category: "Sensitive Skin", difficulty: "beginner", timeEstimate: "5 min read", description: "How to identify sensitising ingredients, patch-test correctly, and build a barrier-first protocol." },
+];
+
 const difficultyColor: Record<string, string> = {
-  beginner: "#4A7C59",
-  intermediate: "#C4622D",
-  advanced: "#8B1A1A",
+  beginner: "#4A7C59", intermediate: "#C4622D", advanced: "#8B1A1A",
 };
 
-export default async function SkinGuidesPage() {
-  const guides = await getAllSkinGuides();
-
+export default function SkinGuidesPage() {
   return (
     <div style={{ backgroundColor: "#F2EBD9" }}>
 
@@ -46,57 +50,30 @@ export default async function SkinGuidesPage() {
           <p style={{ fontSize: 15, color: "#5C5650", lineHeight: 1.7, maxWidth: 560 }}>
             Research-led guides for every skin concern. Each article ties its recommendations to the peer-reviewed evidence behind them.
           </p>
-          {guides.length > 0 && (
-            <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880", marginTop: 16 }}>{guides.length} guide{guides.length !== 1 ? "s" : ""} published</p>
-          )}
+          <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880", marginTop: 16 }}>{guides.length} guides</p>
         </div>
       </div>
 
       {/* Grid */}
       <div style={{ maxWidth: 1280, margin: "0 auto" }} className="container-pad">
-        {guides.length === 0 ? (
-          <div style={{ padding: "64px 0", textAlign: "center" }}>
-            <p style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 12, color: "#A89880" }}>No guides published yet.</p>
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 12 }}>
-            {guides.map((guide: any) => (
-              <Link key={guide.slug} href={`/guides/${guide.slug}`} className="hub-card" style={{ display: "block", borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4", textDecoration: "none" }}>
-                <div style={{ height: 4, backgroundColor: guide.difficulty ? difficultyColor[guide.difficulty] ?? "#C4622D" : "#C4622D" }} />
-                <div style={{ padding: "16px 18px 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    {guide.category && (
-                      <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase", letterSpacing: "0.1em" }}>{guide.category}</span>
-                    )}
-                    {guide.difficulty && (
-                      <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", color: difficultyColor[guide.difficulty] ?? "#8A8480", backgroundColor: `${difficultyColor[guide.difficulty] ?? "#8A8480"}14`, border: `1px solid ${difficultyColor[guide.difficulty] ?? "#8A8480"}33` }}>
-                        {guide.difficulty}
-                      </span>
-                    )}
-                  </div>
-                  <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 16, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, margin: 0 }}>{guide.title}</h2>
-                  {guide.description && (
-                    <p style={{ fontSize: 12, color: "#8A8480", lineHeight: 1.5, margin: 0 }}>
-                      {guide.description.slice(0, 110)}{guide.description.length > 110 ? "…" : ""}
-                    </p>
-                  )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    {guide.timeEstimate && <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#8A8480" }}>{guide.timeEstimate}</span>}
-                    {guide.publishedAt && (
-                      <>
-                        <span style={{ color: "#D4C9B8" }}>·</span>
-                        <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#8A8480" }}>
-                          {new Date(guide.publishedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-                        </span>
-                      </>
-                    )}
-                    <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#C4622D", marginLeft: "auto" }}>→</span>
-                  </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 12 }}>
+          {guides.map((guide) => (
+            <div key={guide.title} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid #D4C9B8", backgroundColor: "#F8F2E4" }}>
+              <div style={{ height: 4, backgroundColor: difficultyColor[guide.difficulty] ?? "#C4622D" }} />
+              <div style={{ padding: "16px 18px 20px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 9, padding: "2px 7px", backgroundColor: "#EDE8DF", border: "1px solid #D4C9B8", borderRadius: 4, color: "#8A8480", textTransform: "uppercase", letterSpacing: "0.1em" }}>{guide.category}</span>
+                  <span style={{ padding: "2px 7px", borderRadius: 4, fontSize: 9, fontFamily: "var(--font-dm-mono), monospace", textTransform: "uppercase", color: difficultyColor[guide.difficulty] ?? "#8A8480", backgroundColor: `${difficultyColor[guide.difficulty] ?? "#8A8480"}14`, border: `1px solid ${difficultyColor[guide.difficulty] ?? "#8A8480"}33` }}>
+                    {guide.difficulty}
+                  </span>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
+                <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 16, fontWeight: 700, color: "#1A1714", lineHeight: 1.3, margin: 0 }}>{guide.title}</h2>
+                <p style={{ fontSize: 12, color: "#8A8480", lineHeight: 1.5, margin: 0 }}>{guide.description}</p>
+                <span style={{ fontFamily: "var(--font-dm-mono), monospace", fontSize: 10, color: "#A89880" }}>{guide.timeEstimate}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
